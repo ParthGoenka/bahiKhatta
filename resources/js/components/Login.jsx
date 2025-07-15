@@ -15,7 +15,7 @@ const Login = () => {
         e.preventDefault();
         setError('');
         try {
-            const res = await axios.post('/api/login', form);
+            const res = await axios.post('/login', form);
             localStorage.setItem('access_token', res.data.access_token);
             navigate('/dashboard');
         } catch (err) {
@@ -50,6 +50,11 @@ const Login = () => {
                         required
                         className="form-control"
                     />
+                </div>
+                <div className="mb-3 text-end">
+                    <Link to="/forgot-password" className="text-secondary text-decoration-underline">
+                        Forgot Password?
+                    </Link>
                 </div>
                 <button type="submit" className="btn btn-primary w-100">Login</button>
                 {error && (

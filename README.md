@@ -59,3 +59,33 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+# Gmail SMTP Setup for Password Reset
+
+To enable password reset emails using Gmail SMTP in Laravel, add the following to your `.env` file (replace with your Gmail and app password):
+
+```
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=your_gmail@gmail.com
+MAIL_PASSWORD=your_gmail_app_password
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=your_gmail@gmail.com
+MAIL_FROM_NAME="BahiKhata"
+```
+
+**Important:**
+- Use a Gmail App Password (not your regular Gmail password).
+- [How to get an App Password](https://support.google.com/accounts/answer/185833?hl=en):
+  - Enable 2-Step Verification on your Google account.
+  - Go to Security > App Passwords, generate one, and use it as `MAIL_PASSWORD`.
+
+After editing `.env`, run:
+
+```
+php artisan config:cache
+php artisan config:clear
+```
+
+---
