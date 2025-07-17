@@ -68,6 +68,10 @@ const Dashboard = () => {
         ],
     };
 
+    // Filter transactions for tables
+    const expenses = transactions.filter(t => Number(t.amount) < 0);
+    const incomes = transactions.filter(t => Number(t.amount) > 0);
+
     return (
         <div className="bg-light min-vh-100">
             <Navbar1 /> {/* Add Navbar1 at the top */}
@@ -93,6 +97,59 @@ const Dashboard = () => {
                         </div>
                         <div className="bg-white rounded shadow p-3 mt-4">
                             <LineChart data={lineData} />
+                        </div>
+                        {/* Expense and Income Tables */}
+                        <div className="row mt-4">
+                            <div className="col-md-6">
+                                <h5>Expenses</h5>
+                                <div className="table-responsive">
+                                    <table className="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Description</th>
+                                                <th>Amount</th>
+                                                <th>Date</th>
+                                                <th>Category</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {expenses.map((t, idx) => (
+                                                <tr key={idx}>
+                                                    <td>{t.description}</td>
+                                                    <td>{t.amount}</td>
+                                                    <td>{t.date}</td>
+                                                    <td>{t.category}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div className="col-md-6">
+                                <h5>Incomes</h5>
+                                <div className="table-responsive">
+                                    <table className="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Description</th>
+                                                <th>Amount</th>
+                                                <th>Date</th>
+                                                <th>Category</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {incomes.map((t, idx) => (
+                                                <tr key={idx}>
+                                                    <td>{t.description}</td>
+                                                    <td>{t.amount}</td>
+                                                    <td>{t.date}</td>
+                                                    <td>{t.category}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </>
                 )}
