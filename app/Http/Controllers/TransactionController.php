@@ -7,12 +7,14 @@ use App\Http\Resources\TransactionResource;
 use App\Http\Resources\TransactionCollection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
     public function index()
     {
-        return new TransactionCollection(Transaction::all());
+        $transactions = Transaction::where('user_id', Auth::id())->get();
+        return new TransactionCollection($transactions);
     }
 
     public function store(Request $request)
@@ -28,18 +30,22 @@ class TransactionController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $transaction = Transaction::create($validator->validated());
+        $data = $validator->validated();
+        $data['user_id'] = Auth::id(); // Link to current user
+
+        $transaction = Transaction::create($data);
         return new TransactionResource($transaction);
     }
 
     public function summary()
     {
-        $transactions = Transaction::all();
+        $transactions = Transaction::where('user_id', Auth::id())->get();
         $income = $transactions->where('amount', '>', 0)->sum('amount');
         $expenses = $transactions->where('amount', '<', 0)->sum('amount');
         $categories = $transactions->groupBy('category')->map(function($group) {
             return $group->sum('amount');
         });
+
         return response()->json([
             'total_income' => $income,
             'total_expenses' => $expenses,
@@ -57,6 +63,7 @@ class TransactionController extends Controller
         } elseif (stripos($description, 'rent') !== false) {
             $category = 'Rent';
         }
+
         return response()->json(['ai_category' => $category]);
     }
 }
