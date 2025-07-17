@@ -40,11 +40,15 @@ const Dashboard = () => {
         }],
     };
 
+    const expenseCategories = Object.entries(summary.categories || {}).filter(
+        ([, amount]) => Number(amount) < 0
+    );
+    
     const pieData = {
-        labels: Object.keys(summary.categories || {}),
+        labels: expenseCategories.map(([category]) => category),
         datasets: [{
-            label: 'Categories',
-            data: Object.values(summary.categories || {}),
+            label: 'Expense Categories',
+            data: expenseCategories.map(([, amount]) => Math.abs(amount)), // use absolute value for chart
             backgroundColor: ['#60a5fa', '#fbbf24', '#a78bfa', '#f87171', '#4ade80'],
         }],
     };
@@ -83,16 +87,22 @@ const Dashboard = () => {
                 ) : (
                     <>
                         <div className="row g-4">
-                            <div className="col-md-6">
+                            <div className="col-md-4">
                                 <div className="bg-white rounded-4 shadow-sm p-4 text-center">
                                     <h6 className="text-muted">Total Income</h6>
                                     <h4 className="text-success">₹ {summary.total_income}</h4>
                                 </div>
                             </div>
-                            <div className="col-md-6">
+                            <div className="col-md-4">
                                 <div className="bg-white rounded-4 shadow-sm p-4 text-center">
                                     <h6 className="text-muted">Total Expenses</h6>
                                     <h4 className="text-danger">₹ {Math.abs(summary.total_expenses)}</h4>
+                                </div>
+                            </div>
+                            <div className="col-md-4">
+                                <div className="bg-white rounded-4 shadow-sm p-4 text-center">
+                                    <h6 className="text-muted">Total Balance</h6>
+                                    <h4 className="text-primary">₹ {summary.total_income - Math.abs(summary.total_expenses)}</h4>
                                 </div>
                             </div>
                         </div>
@@ -109,7 +119,7 @@ const Dashboard = () => {
     <div className="col-md-4">
         <div className="bg-white rounded-4 shadow-sm p-3 h-100">
             <h6 className="text-center mb-2">Spending by Category</h6>
-            <div style={{ height: '200px' }}>
+            <div style={{ height: '200px' }} className='d-flex justify-content-center align-items-center'>
                 <PieChart data={pieData} />
             </div>
         </div>
