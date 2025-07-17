@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 
 const Register = () => {
-    const [form, setForm] = useState({ name: '', email: '', password: '', password_confirmation: '' });
+    const [form, setForm] = useState({ name: '', email: '', password: '', password_confirmation: '', phone: '', address: '', dob: '', gender: '' });
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
@@ -42,6 +42,27 @@ const Register = () => {
                 <div className="mb-3">
                     <label htmlFor="password_confirmation" className="form-label">Confirm Password</label>
                     <input name="password_confirmation" value={form.password_confirmation} onChange={handleChange} placeholder="Confirm Password" type="password" className="form-control" required />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="phone" className="form-label">Phone</label>
+                    <input name="phone" value={form.phone} onChange={handleChange} className="form-control" required />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="address" className="form-label">Address</label>
+                    <input name="address" value={form.address} onChange={handleChange} className="form-control" required />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="dob" className="form-label">Date of Birth</label>
+                    <input name="dob" type="date" value={form.dob} onChange={handleChange} className="form-control" required />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="gender" className="form-label">Gender</label>
+                    <select name="gender" value={form.gender} onChange={handleChange} className="form-control" required>
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
                 </div>
                 <button type="submit" className="btn btn-primary w-100">Register</button>
                 {error && <div className="alert alert-danger mt-3 text-center">{error}</div>}

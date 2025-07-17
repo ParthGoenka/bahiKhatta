@@ -16,6 +16,10 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'phone' => 'nullable|string|max:15',
+            'address' => 'nullable|string|max:255',
+            'dob' => 'nullable|date',
+            'gender' => 'nullable|in:male,female,other',
         ]);
 
         if ($validator->fails()) {
@@ -26,6 +30,10 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'dob' => $request->dob,
+            'gender' => $request->gender,
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -65,12 +73,13 @@ class AuthController extends Controller
         $validated=$request->validate([
             'name'=>'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
+            'phone' => 'nullable|string|max:15',
+            'address' => 'nullable|string|max:255',
+            'dob' => 'nullable|date',
+            'gender' => 'nullable|in:male,female,other',
         ]);
 
-        $user->name = $validated['name'];
-        $user->email = $validated['email'];
-        
-        $user->save();
+        $user->update($validated);
 
         return response()->json(['message' => 'Profile updated successfully']);
     }
