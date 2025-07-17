@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const TransactionForm = ({ onSuccess }) => {
     const [form, setForm] = useState({ description: '', amount: '', date: '', category: '', type: 'expense' });
@@ -55,9 +56,17 @@ const TransactionForm = ({ onSuccess }) => {
                     <input name="category" value={form.category} onChange={handleChange} placeholder="Category" className="form-control" />
                 </div>
             </div>
-            <button type="submit" className="btn btn-primary mt-4">Add Transaction</button>
-            {error && <div className="alert alert-danger mt-2">{error}</div>}
+            
+            
+            <div className="text-end">
+            <button type="submit" className="btn btn-primary mt-4 mx-2">Add Transaction</button>
+                        <Link to="/upload-transactions" className="btn btn-outline-primary btn-md mt-4">
+                            Upload Transactions (CSV/Excel)
+                        </Link>
+                    </div>
+                    {error && <div className="alert alert-danger mt-2">{error}</div>}
         </form>
+
     );
 };
 

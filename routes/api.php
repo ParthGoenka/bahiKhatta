@@ -23,5 +23,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/transactions', [TransactionController::class, 'store']);
     Route::get('/transactions/summary', [TransactionController::class, 'summary']);
     Route::post('/transactions/ai-categorize', [TransactionController::class, 'aiCategorize']);
+    Route::post('/upload-transactions', [TransactionController::class, 'uploadTransactions']);
     Route::post('/ai-chat', [AIChatController::class, 'chat']);
 });
