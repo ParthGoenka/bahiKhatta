@@ -73,7 +73,7 @@ const AIChat = () => {
                                     className="alert alert-light mt-4 border rounded p-3"
                                     style={{ whiteSpace: 'pre-wrap', fontSize: '0.95rem' }}
                                 >
-                                    <strong className="text-success">AI Response:</strong>
+                                    <strong className="text-success">Munshi's Response:</strong>
                                     <div className="mt-2">{response}</div>
                                 </div>
                             )}

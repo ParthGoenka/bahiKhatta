@@ -87,6 +87,7 @@ const Profile = () => {
                                             value={form[field]}
                                             onChange={handleChange}
                                             readOnly={!isEditing}
+                                            max={new Date().toISOString().split("T")[0]}
                                         />
                                         {errors[field] && (
                                             <div className="invalid-feedback">{errors[field][0]}</div>

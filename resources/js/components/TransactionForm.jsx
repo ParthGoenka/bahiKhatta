@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+// Remove Link import if not needed
 
-const TransactionForm = ({ onSuccess }) => {
+const TransactionForm = ({ onSuccess, onShowUpload }) => {
     const [form, setForm] = useState({ description: '', amount: '', date: '', category: '', type: 'expense' });
     const [error, setError] = useState(null);
 
@@ -50,23 +50,31 @@ const TransactionForm = ({ onSuccess }) => {
                     <input name="amount" value={form.amount} onChange={handleChange} placeholder="Amount" type="number" className="form-control" required />
                 </div>
                 <div className="col-md-3">
-                    <input name="date" value={form.date} onChange={handleChange} placeholder="Date" type="date" className="form-control" required />
+                    <input
+                        name="date"
+                        value={form.date}
+                        onChange={handleChange}
+                        placeholder="Date"
+                        type="date"
+                        className="form-control"
+                        required
+                        max={new Date().toISOString().split("T")[0]} // 👈 Set max to today
+                    />
                 </div>
+
                 <div className="col-md-2">
                     <input name="category" value={form.category} onChange={handleChange} placeholder="Category" className="form-control" />
                 </div>
             </div>
-            
-            
-            <div className="text-end">
-            <button type="submit" className="btn btn-primary mt-4 mx-2">Add Transaction</button>
-                        <Link to="/upload-transactions" className="btn btn-outline-primary btn-md mt-4">
-                            Upload Transactions (CSV/Excel)
-                        </Link>
-                    </div>
-                    {error && <div className="alert alert-danger mt-2">{error}</div>}
-        </form>
 
+            <div className="text-end">
+                <button type="submit" className="btn btn-primary mt-4 mx-2">Add Transaction</button>
+                <button type="button" className="btn btn-outline-primary btn-md mt-4" onClick={onShowUpload}>
+                    Upload Transactions (CSV/Excel)
+                </button>
+            </div>
+            {error && <div className="alert alert-danger mt-2">{error}</div>}
+        </form>
     );
 };
 

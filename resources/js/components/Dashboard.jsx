@@ -5,13 +5,14 @@ import BarChart from './Charts/BarChart';
 import PieChart from './Charts/PieChart';
 import LineChart from './Charts/LineChart';
 import Navbar1 from './Navbar1';
-import { Link } from 'react-router-dom';
+import UploadTransactions from './UploadTransactions';
 
 const Dashboard = () => {
     const [transactions, setTransactions] = useState([]);
     const [summary, setSummary] = useState({ total_income: 0, total_expenses: 0, categories: {} });
     const [insights, setInsights] = useState('');
     const [loading, setLoading] = useState(true);
+    const [showUpload, setShowUpload] = useState(false);
 
     const fetchData = async () => {
         setLoading(true);
@@ -43,12 +44,12 @@ const Dashboard = () => {
     const expenseCategories = Object.entries(summary.categories || {}).filter(
         ([, amount]) => Number(amount) < 0
     );
-    
+
     const pieData = {
         labels: expenseCategories.map(([category]) => category),
         datasets: [{
             label: 'Expense Categories',
-            data: expenseCategories.map(([, amount]) => Math.abs(amount)), // use absolute value for chart
+            data: expenseCategories.map(([, amount]) => Math.abs(amount)),
             backgroundColor: ['#60a5fa', '#fbbf24', '#a78bfa', '#f87171', '#4ade80'],
         }],
     };
@@ -69,14 +70,20 @@ const Dashboard = () => {
     const expenses = transactions.filter(t => Number(t.amount) < 0);
     const incomes = transactions.filter(t => Number(t.amount) > 0);
 
+    // Handler to show upload form
+    const handleShowUpload = () => setShowUpload(true);
+    // Handler to hide upload form after success
+    const handleUploadSuccess = () => setShowUpload(false);
+
     return (
         <div className="bg-light min-vh-100">
             <Navbar1 />
             <div className="container py-4">
-                <h2 className="text-primary mb-3 text-center fw-bold">📊 Financial Dashboard</h2>
+                <h2 className="text-primary mb-3 text-center fw-bold">📊 Finance Dashboard</h2>
 
-                <div className="mb-4">
-                    <TransactionForm onSuccess={fetchData} />
+                <div className="mb-4 gap-4">
+                    <TransactionForm onSuccess={fetchData} onShowUpload={handleShowUpload} />
+                    {showUpload && <UploadTransactions onSuccess={handleUploadSuccess} />}
                 </div>
 
                 {loading ? (
@@ -108,31 +115,31 @@ const Dashboard = () => {
                         </div>
 
                         <div className="row g-3 mt-3">
-    <div className="col-md-4">
-        <div className="bg-white rounded-4 shadow-sm p-3 h-100">
-            <h6 className="text-center mb-2">Income vs Expenses</h6>
-            <div style={{ height: '200px' }}>
-                <BarChart data={barData} />
-            </div>
-        </div>
-    </div>
-    <div className="col-md-4">
-        <div className="bg-white rounded-4 shadow-sm p-3 h-100">
-            <h6 className="text-center mb-2">Spending by Category</h6>
-            <div style={{ height: '200px' }} className='d-flex justify-content-center align-items-center'>
-                <PieChart data={pieData} />
-            </div>
-        </div>
-    </div>
-    <div className="col-md-4">
-        <div className="bg-white rounded-4 shadow-sm p-3 h-100">
-            <h6 className="text-center mb-2">Balance Over Time</h6>
-            <div style={{ height: '200px' }}>
-                <LineChart data={lineData} />
-            </div>
-        </div>
-    </div>
-</div>
+                            <div className="col-md-4">
+                                <div className="bg-white rounded-4 shadow-sm p-3 h-100">
+                                    <h6 className="text-center mb-2">Income vs Expenses</h6>
+                                    <div style={{ height: '200px' }}>
+                                        <BarChart data={barData} />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-4">
+                                <div className="bg-white rounded-4 shadow-sm p-3 h-100">
+                                    <h6 className="text-center mb-2">Spending by Category</h6>
+                                    <div style={{ height: '200px' }} className='d-flex justify-content-center align-items-center'>
+                                        <PieChart data={pieData} />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-4">
+                                <div className="bg-white rounded-4 shadow-sm p-3 h-100">
+                                    <h6 className="text-center mb-2">Balance Over Time</h6>
+                                    <div style={{ height: '200px' }}>
+                                        <LineChart data={lineData} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
 
                         <div className="row mt-5 g-4">

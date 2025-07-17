@@ -53,8 +53,17 @@ const Register = () => {
                 </div>
                 <div className="mb-3">
                     <label htmlFor="dob" className="form-label">Date of Birth</label>
-                    <input name="dob" type="date" value={form.dob} onChange={handleChange} className="form-control" required />
+                    <input
+                        name="dob"
+                        type="date"
+                        value={form.dob}
+                        onChange={handleChange}
+                        className="form-control"
+                        required
+                        max={new Date().toISOString().split("T")[0]} // 👈 Prevent future DOBs
+                    />
                 </div>
+
                 <div className="mb-3">
                     <label htmlFor="gender" className="form-label">Gender</label>
                     <select name="gender" value={form.gender} onChange={handleChange} className="form-control" required>
