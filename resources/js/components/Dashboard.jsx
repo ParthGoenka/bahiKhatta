@@ -4,8 +4,8 @@ import TransactionForm from './TransactionForm';
 import BarChart from './Charts/BarChart';
 import PieChart from './Charts/PieChart';
 import LineChart from './Charts/LineChart';
-import AIInsights from './AIInsights';
 import Navbar1 from './Navbar1'; // <-- Import Navbar1
+// import AIChat from './AIChat'; // Remove AIChat import
 
 const Dashboard = () => {
     const [transactions, setTransactions] = useState([]);
@@ -94,7 +94,6 @@ const Dashboard = () => {
                         <div className="bg-white rounded shadow p-3 mt-4">
                             <LineChart data={lineData} />
                         </div>
-                        <AIInsights insights={insights} />
                     </>
                 )}
             </div>

@@ -14,7 +14,6 @@ class TransactionResource extends JsonResource
             'amount' => $this->amount,
             'date' => $this->date,
             'category' => $this->category,
-            'ai_category' => $this->ai_category,
             'created_at' => $this->created_at,
         ];
     }

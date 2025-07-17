@@ -15,7 +15,6 @@ class Transaction extends Model
         'amount',
         'date',
         'category',
-        'ai_category',
         'user_id',
     ];
 
