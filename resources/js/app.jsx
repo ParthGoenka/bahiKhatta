@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './axiosSetup';
+import '../css/app.css'
 import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import Register from './components/Register';
